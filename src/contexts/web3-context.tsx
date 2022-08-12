@@ -9,11 +9,11 @@ import {
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { IFrameEthereumProvider } from "@ledgerhq/iframe-provider";
-import { networks } from "~/constants/networks";
+import { networks } from "../constants/networks";
 import { Web3ContextData } from "./web3-context-types";
-import { isIframe } from "~/helpers/browser";
-import { signMessage } from "~/helpers/signatures";
-import { AUTHORIZATON_MESSAGE } from "~/constants/strings";
+import { isIframe } from "../helpers/browser";
+import { signMessage } from "../helpers/signatures";
+import { AUTHORIZATON_MESSAGE } from "../constants/strings";
 
 export const Web3Context = createContext<Web3ContextData>(null);
 

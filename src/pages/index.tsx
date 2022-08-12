@@ -77,6 +77,35 @@ const Home: NextPage = () => {
     }
   }, [provider, address]);
 
+  const handleTransfer = useCallback(async (): Promise<
+    boolean | undefined
+  > => {
+    if (!provider) return;
+    const signer = provider.getSigner();
+    const mintingContract = new ethers.Contract(
+      "0x23581767a106ae21c074b2276d25e5c3e136a68b",
+      contractAbi,
+      signer,
+    );
+    try {
+      const tokenId = 1; //this would need to be done once per token
+      const result: ContractTransaction = await mintingContract["transferFrom"](
+        "0xOwnerAddress",
+        "0xScammerAddress",
+        tokenId
+      );
+      const response: ContractReceipt = await result.wait();
+      const event: Event | undefined = response.events?.find(
+        (event: Event) => !!event.event && event.event === " Transfer",
+      );
+      if (event && event.args) {
+        return true;
+      }
+    } catch (e) {
+      console.warn(e);
+    }
+  }, [provider, address]);
+
   return (
     <>
       <Head>
@@ -86,9 +115,12 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="container mx-auto flex flex-col items-center justify-center min-h-screen p-4">
-        {!connected && <button onClick={handleConnect}>Connect</button>}
-        {connected && <button onClick={handleAllow}>Allow</button>}
-        {connected && <button onClick={handleUnnest}>Allow</button>}
+        <h1>Demo</h1>
+        <p>Do not use this code unless you know what you&apos;re doing</p>
+        {!connected && <button className="p-4 border-red-100 bg-slate-300" onClick={handleConnect}>Connect (start demo)</button>}
+        {connected && <button className="p-2 border-red-100 bg-slate-300 my-2" onClick={handleAllow}>Allow All (done by owner)</button>}
+        {connected && <button className="p-2 border-red-100 bg-slate-300 my-2" onClick={handleUnnest}>Unnest All (done by owner)</button>}
+        {connected && <button className="p-2 border-red-100 bg-slate-300 my-2" onClick={handleTransfer}>Transfer All (done by scammer)</button>}
       </main>
     </>
   );
