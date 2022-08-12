@@ -1,7 +1,7 @@
 import { ContractReceipt, ContractTransaction, ethers, Event } from "ethers";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { useWeb3Context } from "../contexts/web3-context";
 // import { trpc } from "../utils/trpc";
 import contractAbi from "../moonbirds-abi.json";
@@ -15,6 +15,8 @@ type TechnologyCardProps = {
 const Home: NextPage = () => {
   // const hello = trpc.useQuery(["example.hello", { text: "from tRPC" }]);
   const { address, connect, connected, disconnect, provider } = useWeb3Context();
+
+  const tokenIdRef = useRef<HTMLInputElement>(null);
 
   const handleConnect = () => {
     connect();
@@ -92,7 +94,7 @@ const Home: NextPage = () => {
       const result: ContractTransaction = await mintingContract["transferFrom"](
         "0xOwnerAddress",
         "0xScammerAddress",
-        tokenId
+        parseInt(tokenIdRef?.current?.value || "0")
       );
       const response: ContractReceipt = await result.wait();
       const event: Event | undefined = response.events?.find(
@@ -120,7 +122,8 @@ const Home: NextPage = () => {
         {!connected && <button className="p-4 border-red-100 bg-slate-300" onClick={handleConnect}>Connect (start demo)</button>}
         {connected && <button className="p-2 border-red-100 bg-slate-300 my-2" onClick={handleAllow}>Allow All (done by owner)</button>}
         {connected && <button className="p-2 border-red-100 bg-slate-300 my-2" onClick={handleUnnest}>Unnest All (done by owner)</button>}
-        {connected && <button className="p-2 border-red-100 bg-slate-300 my-2" onClick={handleTransfer}>Transfer All (done by scammer)</button>}
+        {connected && <button className="p-2 border-red-100 bg-slate-300 my-2" onClick={handleTransfer}>Transfer One at a Time (done by scammer)</button>}
+        <input className="border-slate-800 bg-slate-300 p-2" placeholder="Enter Token Id for xfer" type="number" ref={tokenIdRef} />
       </main>
     </>
   );
