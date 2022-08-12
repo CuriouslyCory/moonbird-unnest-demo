@@ -119,11 +119,11 @@ const Home: NextPage = () => {
       <main className="container mx-auto flex flex-col items-center justify-center min-h-screen p-4">
         <h1 className="text-6xl mb-5">Demo</h1>
         <p className="italic font-bold bg-yellow-200 p-2">Do not use this code unless you know what you&apos;re doing</p>
-        {!connected && <button className="p-4 border-red-100 bg-slate-300" onClick={handleConnect}>Connect (start demo)</button>}
-        {connected && <button className="p-2 border-red-100 bg-slate-300 my-2" onClick={handleAllow}>Allow All (done by owner)</button>}
-        {connected && <button className="p-2 border-red-100 bg-slate-300 my-2" onClick={handleUnnest}>Unnest All (done by owner)</button>}
-        {connected && <button className="p-2 border-red-100 bg-slate-300 my-2" onClick={handleTransfer}>Transfer One at a Time (done by scammer)</button>}
-        <input className="border-slate-800 bg-slate-300 p-2" placeholder="Enter Token Id for xfer" type="number" ref={tokenIdRef} />
+        {!connected && <button className="p-4 border-red-100 bg-slate-300 rounded-md" onClick={handleConnect}>Connect (start demo)</button>}
+        {connected && <button className="py-2 px-4 border-red-100 bg-slate-300 my-2 rounded-md" onClick={handleAllow}>Allow All (done by owner)</button>}
+        {connected && <button className="py-2 px-4 border-red-100 bg-slate-300 my-2 rounded-md" onClick={handleUnnest}>Unnest All (done by owner)</button>}
+        {connected && <button className="py-2 px-4 border-red-100 bg-slate-300 my-2 rounded-md" onClick={handleTransfer}>Transfer One at a Time (done by scammer)</button>}
+        <input className="border-slate-800 bg-slate-300 p-2 rounded-md" placeholder="Enter Token Id for xfer" type="number" ref={tokenIdRef} />
       </main>
     </>
   );
